@@ -1,21 +1,17 @@
 FROM centos:centos7
 
-# Perform updates
-RUN yum -y update; yum clean all
-
-# Install EPEL
-RUN yum -y install epel-release; yum clean all
-
+# Perform updates & Install EPEL
+RUN yum -y update; yum clean all \
+    && yum -y install epel-release; yum clean all\ 
 # Install Microsoft's Core Fonts
-RUN yum -y install curl libgsf policycoreutils-python unixODBC cabextract xorg-x11-font-utils fontconfig; yum clean all
-RUN rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
-
-# Install ImageMagick
-RUN yum -y install ImageMagick; yum clean all
+    && yum -y install curl libgsf policycoreutils-python unixODBC cabextract xorg-x11-font-utils fontconfig; yum clean all \
+    && rpm -ivh https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm \
+# Install ImageMagick \
+    && yum -y install ImageMagick; yum clean all \
+    && rm -rf /var/cache/yum
 
 ADD rpm/*.rpm /tmp/
-#RUN rpm -Uvh /tmp/*.rpm
-yum localinstall /tmp/*.rpm
+RUN yum -y localinstall /tmp/*.rpm
 
 COPY logcfg.xml /opt/1C/v8.3/x86_64/conf/
 
