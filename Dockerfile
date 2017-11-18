@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM centos:latest
 MAINTAINER a4neg@yandex.ru
 
 ENV LC_ALL=C.UTF-8 LANG=ru_RU.UTF-8 LANGUAGE=ru_RU.UTF-8 TERM=xterm
