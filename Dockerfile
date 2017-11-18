@@ -1,14 +1,10 @@
-FROM centos:centos7
+FROM centos:latest
+MAINTAINER a4neg@yandex.ru
 
-# Perform updates & Install EPEL
-RUN yum -y update; yum clean all \
-    && yum -y install epel-release; yum clean all\ 
-# Install Microsoft's Core Fonts
-    && yum -y install curl libgsf policycoreutils-python unixODBC cabextract xorg-x11-font-utils fontconfig; yum clean all \
-    && rpm -ivh https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm \
-# Install ImageMagick \
-    && yum -y install ImageMagick; yum clean all \
-    && rm -rf /var/cache/yum
+ENV LC_ALL=C.UTF-8 LANG=ru_RU.UTF-8 LANGUAGE=ru_RU.UTF-8 TERM=xterm
+
+ADD	./files/ /tmp/
+RUN chmod +x /tmp/install.sh && /tmp/install.sh
 
 ADD rpm/*.rpm /tmp/
 RUN yum -y localinstall /tmp/*.rpm
